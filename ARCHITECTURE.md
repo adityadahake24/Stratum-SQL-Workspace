@@ -72,11 +72,11 @@
 **Date:** 2026-05-21
 **Status:** Accepted
 
-## ADR-013: Rate Limiting
+## ADR-013: Rate Limiting (Deferred)
 **Decision:** slowapi (limits library) with IP-based key function
 **Reason:** Protects auth and query endpoints from brute force and abuse without requiring Redis (in-memory store sufficient for single-instance; swap to Redis store for multi-replica).
 **Date:** 2026-05-21
-**Status:** Accepted
+**Status:** Rejected — deferred. Artificial IP-based limits on auth and query execution are counter-productive for scale. Revisit only if specific abuse vectors emerge (e.g. bot signup). Consider token-bucket per authenticated user rather than per IP if needed.
 
 ## ADR-014: Prometheus Metrics
 **Decision:** prometheus_fastapi_instrumentator + custom prometheus_client counters/histograms in app/core/metrics.py

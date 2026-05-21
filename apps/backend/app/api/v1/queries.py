@@ -1,6 +1,6 @@
 import uuid
 from datetime import datetime, timezone
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, HTTPException
 from sqlalchemy import select
 
 from app.dependencies import CurrentUser, DBSession
@@ -10,14 +10,12 @@ from app.models.query_execution import QueryExecution
 from app.services.sql_analyzer import sql_analyzer
 from app.websockets.manager import ws_manager
 from app.core.metrics import queries_executed_total
-from app.core.rate_limit import limiter
 
 router = APIRouter()
 
 
 @router.post("/execute", response_model=QueryExecuteResponse, status_code=202)
-@limiter.limit("30/minute")
-async def execute_query(request: Request, body: QueryExecuteRequest, current_user: CurrentUser, session: DBSession):
+async def execute_query(body: QueryExecuteRequest, current_user: CurrentUser, session: DBSession):
     from app.workers.tasks.query_tasks import execute_query_task
 
     analysis = sql_analyzer.analyze(body.sql)

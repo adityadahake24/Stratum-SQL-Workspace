@@ -8,7 +8,7 @@
 
 **Phase:** All phases complete — Phase 1, 2, and 3 (production hardening) shipped.
 **Last Updated:** 2026-05-21
-**What was just completed:** Phase 3 hardening complete + docs/tooling: CI/CD now builds & pushes Docker images to GHCR after tests. .env.example fully annotated with generation instructions. API docs created at docs/api.md with full endpoint reference, WS protocol, rate limits, error codes. FastAPI Swagger UI description updated with auth model, rate limits, WS overview, tags. ARCHITECTURE.md updated (ADR-013 rate limiting, ADR-014 Prometheus, ADR-015 CI/CD; ADR-011 corrected to @vueuse/core).
+**What was just completed:** Phase 3 hardening complete + docs/tooling: CI/CD builds & pushes Docker images to GHCR after tests. .env.example fully annotated with generation instructions. API docs created at docs/api.md with full endpoint reference, WS protocol, rate limits, error codes. FastAPI Swagger UI description updated with auth model, rate limits, WS overview, tags. ARCHITECTURE.md updated (ADR-013 rate limiting, ADR-014 Prometheus, ADR-015 CI/CD; ADR-011 corrected to @vueuse/core).
 **What to do next:** Run `make dev-up` to start local dev environment. Run `make db-migrate` to apply migrations. Open http://localhost:3000.
 
 ## Application Summary

@@ -34,23 +34,6 @@ Browser ──REST──▶ FastAPI /api/v1/...
 
 ---
 
-## Rate Limits
-
-Limits are applied per client IP address via `slowapi`.
-
-| Endpoint | Limit |
-|---|---|
-| `POST /api/v1/auth/register` | 10 requests / minute |
-| `POST /api/v1/auth/login` | 20 requests / minute |
-| `POST /api/v1/queries/execute` | 30 requests / minute |
-
-Exceeding a limit returns **429 Too Many Requests**:
-```json
-{ "detail": "Rate limit exceeded: 30 per 1 minute" }
-```
-
----
-
 ## Error Format
 
 All errors follow a consistent envelope:
@@ -72,7 +55,6 @@ All errors follow a consistent envelope:
 | `409` | Conflict (duplicate email, undo already consumed) |
 | `410` | Gone (undo snapshot expired) |
 | `422` | Unprocessable entity (Pydantic validation) |
-| `429` | Rate limit exceeded |
 | `500` | Internal server error |
 
 ---

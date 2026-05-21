@@ -128,7 +128,7 @@
 - [x] Kubernetes CronJobs for cleanup (deploy/helm/stratum/templates/cronjobs.yaml)
 - [x] Prometheus metrics (app/core/metrics.py — queries, undo, duration, auth, connections, WS)
 - [x] Encrypted connection token sharing
-- [x] Rate limiting (slowapi — auth login/register + query execute)
+- [ ] Rate limiting — intentionally deferred (no artificial limits for scale)
 - [x] Unit tests — SQLAnalyzer + UndoEngine
 - [x] Integration tests — auth + connections (tests/integration/)
 - [x] E2E tests — Playwright auth flows (tests/e2e/)

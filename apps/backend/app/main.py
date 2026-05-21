@@ -8,8 +8,6 @@ from prometheus_fastapi_instrumentator import Instrumentator
 from app.config import settings
 from app.core.middleware import RequestIDMiddleware, TimingMiddleware
 from app.core.exceptions import register_exception_handlers
-from app.core.rate_limit import limiter, rate_limit_exceeded_handler
-from slowapi.errors import RateLimitExceeded
 from app.api.v1.router import api_router
 from app.api.v1.ws import ws_router
 from app.db.base import engine
@@ -51,18 +49,6 @@ Authenticated endpoints require a **Bearer JWT** in the `Authorization` header.
 |---|---|---|
 | Access (JWT HS256) | Configurable (default 15 min prod / 7 days dev) | `Authorization: Bearer <token>` |
 | Refresh (opaque) | 7 days | `HttpOnly` cookie on `/api/v1/auth` path |
-
----
-
-### Rate Limits (per IP)
-
-| Endpoint | Limit |
-|---|---|
-| `POST /api/v1/auth/register` | 10 / min |
-| `POST /api/v1/auth/login` | 20 / min |
-| `POST /api/v1/queries/execute` | 30 / min |
-
-Exceeding a limit returns **429 Too Many Requests**.
 
 ---
 
@@ -111,9 +97,6 @@ app = FastAPI(
         {"name": "support", "description": "In-app support requests"},
     ],
 )
-app.state.limiter = limiter
-app.add_exception_handler(RateLimitExceeded, rate_limit_exceeded_handler)
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[settings.frontend_url],

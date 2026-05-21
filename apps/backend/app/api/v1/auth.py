@@ -3,22 +3,19 @@ from fastapi import APIRouter, Request, Response
 from app.dependencies import CurrentUser, DBSession
 from app.schemas.auth import RegisterRequest, LoginRequest, TokenResponse, UserResponse
 from app.services.auth_service import AuthService
-from app.core.rate_limit import limiter
 
 router = APIRouter()
 
 
 @router.post("/register", response_model=UserResponse, status_code=201)
-@limiter.limit("10/minute")
-async def register(request: Request, body: RegisterRequest, session: DBSession):
+async def register(body: RegisterRequest, session: DBSession):
     svc = AuthService(session)
     user = await svc.register(body.email, body.password)
     return user
 
 
 @router.post("/login", response_model=TokenResponse)
-@limiter.limit("20/minute")
-async def login(request: Request, body: LoginRequest, response: Response, session: DBSession):
+async def login(body: LoginRequest, request: Request, response: Response, session: DBSession):
     svc = AuthService(session)
     ip = request.client.host if request.client else None
     ua = request.headers.get("user-agent")
