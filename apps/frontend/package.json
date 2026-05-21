@@ -1,0 +1,47 @@
+{
+  "name": "@stratum/frontend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt dev --port 3000",
+    "build": "nuxt build",
+    "preview": "nuxt preview",
+    "generate": "nuxt generate",
+    "postinstall": "nuxt prepare",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui"
+  },
+  "dependencies": {
+    "nuxt": "^3.13.0",
+    "vue": "^3.5.0",
+    "@nuxtjs/tailwindcss": "^6.12.0",
+    "shadcn-nuxt": "^0.10.4",
+    "@pinia/nuxt": "^0.7.0",
+    "pinia": "^2.2.0",
+    "@tanstack/vue-query": "^5.56.0",
+    "@vueuse/core": "^11.0.0",
+    "@vueuse/nuxt": "^11.0.0",
+    "monaco-editor": "^0.52.0",
+    "@guolao/vue-monaco-editor": "^1.0.0",
+    "splitpanes": "^3.1.0",
+    "zod": "^3.23.0",
+    "date-fns": "^4.1.0",
+    "lucide-vue-next": "^0.441.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
+    "tailwind-merge": "^2.5.0",
+    "radix-vue": "^1.9.0",
+    "vue-sonner": "^1.1.0",
+    "@formkit/auto-animate": "^0.8.2",
+    "sql-formatter": "^15.3.0",
+    "@pinia-plugin-persistedstate/nuxt": "^1.2.1"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "latest",
+    "@types/node": "^22.0.0",
+    "@playwright/test": "^1.47.0",
+    "typescript": "^5.5.0",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47"
+  }
+}

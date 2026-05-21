@@ -1,0 +1,73 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-cleanup-snapshots
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: stratum
+    app.kubernetes.io/component: cleanup
+spec:
+  schedule: "0 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: cleanup
+              image: "{{ .Values.global.image.registry }}/{{ .Values.global.image.repository }}/worker:{{ .Values.global.image.tag }}"
+              imagePullPolicy: Always
+              command:
+                - celery
+                - -A
+                - app.workers.celery_app
+                - call
+                - app.workers.tasks.cleanup_tasks.cleanup_expired_snapshots
+              envFrom:
+                - configMapRef:
+                    name: {{ .Release.Name }}-config
+                - secretRef:
+                    name: {{ .Release.Name }}-secrets
+              resources:
+                requests: { cpu: 50m, memory: 128Mi }
+                limits: { cpu: 200m, memory: 256Mi }
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-cleanup-sessions
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: stratum
+    app.kubernetes.io/component: cleanup
+spec:
+  schedule: "30 2 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: cleanup-sessions
+              image: "{{ .Values.global.image.registry }}/{{ .Values.global.image.repository }}/worker:{{ .Values.global.image.tag }}"
+              imagePullPolicy: Always
+              command:
+                - celery
+                - -A
+                - app.workers.celery_app
+                - call
+                - app.workers.tasks.cleanup_tasks.cleanup_stale_sessions
+              envFrom:
+                - configMapRef:
+                    name: {{ .Release.Name }}-config
+                - secretRef:
+                    name: {{ .Release.Name }}-secrets
+              resources:
+                requests: { cpu: 50m, memory: 128Mi }
+                limits: { cpu: 200m, memory: 256Mi }

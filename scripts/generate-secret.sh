@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+echo "=== Stratum Secret Generator ==="
+echo ""
+echo "SECRET_KEY:"
+python3 -c "import secrets; print(secrets.token_hex(32))"
+echo ""
+echo "ENCRYPTION_KEY (Fernet):"
+python3 -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
+echo ""
+echo "JWT_SECRET:"
+python3 -c "import secrets; print(secrets.token_hex(32))"

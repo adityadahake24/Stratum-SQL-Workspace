@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --stratum-bg-primary: #ffffff;
+  --stratum-bg-secondary: #f8f9fa;
+  --stratum-bg-tertiary: #f1f3f4;
+  --stratum-bg-elevated: #ffffff;
+  --stratum-border: #e2e4e7;
+  --stratum-text-primary: #1a1c1e;
+  --stratum-text-secondary: #6b7280;
+  --stratum-text-muted: #9ca3af;
+  --stratum-accent: #5B6CF2;
+  --stratum-accent-hover: #4857e0;
+  --stratum-success: #10b981;
+  --stratum-error: #ef4444;
+  --stratum-warning: #f59e0b;
+}
+
+[data-theme="dark"] {
+  --stratum-bg-primary: #0f1117;
+  --stratum-bg-secondary: #161b22;
+  --stratum-bg-tertiary: #1c2128;
+  --stratum-bg-elevated: #1c2128;
+  --stratum-border: #30363d;
+  --stratum-text-primary: #e6edf3;
+  --stratum-text-secondary: #8b949e;
+  --stratum-text-muted: #656d76;
+  --stratum-accent: #818cf8;
+  --stratum-accent-hover: #929bf9;
+  --stratum-success: #3fb950;
+  --stratum-error: #f85149;
+  --stratum-warning: #d29922;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#__nuxt {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--stratum-bg-primary);
+  color: var(--stratum-text-primary);
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--stratum-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--stratum-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--stratum-text-muted);
+}
+
+.splitpanes__splitter {
+  background-color: var(--stratum-border) !important;
+}
+
+.splitpanes__splitter:hover {
+  background-color: var(--stratum-accent) !important;
+}

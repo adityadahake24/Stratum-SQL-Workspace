@@ -1,0 +1,18 @@
+version: "3.9"
+
+# Development overrides — hot reload, debug ports, etc.
+services:
+  backend:
+    environment:
+      ENVIRONMENT: development
+      LOG_LEVEL: debug
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload --log-level debug
+
+  worker:
+    environment:
+      ENVIRONMENT: development
+    command: celery -A app.workers.celery_app worker --loglevel=debug --concurrency=2
+
+  frontend:
+    environment:
+      NODE_ENV: development
