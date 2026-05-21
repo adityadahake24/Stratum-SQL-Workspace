@@ -19,7 +19,7 @@ spec:
           containers:
             - name: cleanup
               image: "{{ .Values.global.image.registry }}/{{ .Values.global.image.repository }}/worker:{{ .Values.global.image.tag }}"
-              imagePullPolicy: Always
+              imagePullPolicy: IfNotPresent
               command:
                 - celery
                 - -A
@@ -56,7 +56,7 @@ spec:
           containers:
             - name: cleanup-sessions
               image: "{{ .Values.global.image.registry }}/{{ .Values.global.image.repository }}/worker:{{ .Values.global.image.tag }}"
-              imagePullPolicy: Always
+              imagePullPolicy: IfNotPresent
               command:
                 - celery
                 - -A

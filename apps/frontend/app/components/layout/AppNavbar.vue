@@ -42,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import { PlusIcon, SunIcon, MoonIcon } from "lucide-vue-next"
+import { PlusIcon, SunIcon, MoonIcon } from "@lucide/vue"
 
 const ui = useUiStore()
 const auth = useAuthStore()

@@ -16,7 +16,7 @@
     "vue": "^3.5.0",
     "@nuxtjs/tailwindcss": "^6.12.0",
     "shadcn-nuxt": "^0.10.4",
-    "@pinia/nuxt": "^0.7.0",
+    "@pinia/nuxt": "0.5.5",
     "pinia": "^2.2.0",
     "@tanstack/vue-query": "^5.56.0",
     "@vueuse/core": "^11.0.0",
@@ -26,7 +26,7 @@
     "splitpanes": "^3.1.0",
     "zod": "^3.23.0",
     "date-fns": "^4.1.0",
-    "lucide-vue-next": "^0.441.0",
+    "@lucide/vue": "^1.16.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "tailwind-merge": "^2.5.0",
@@ -34,7 +34,7 @@
     "vue-sonner": "^1.1.0",
     "@formkit/auto-animate": "^0.8.2",
     "sql-formatter": "^15.3.0",
-    "@pinia-plugin-persistedstate/nuxt": "^1.2.1"
+    "pinia-plugin-persistedstate": "^2.4.0"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",

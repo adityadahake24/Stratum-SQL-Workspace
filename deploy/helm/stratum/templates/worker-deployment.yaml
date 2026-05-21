@@ -18,7 +18,7 @@ spec:
       containers:
         - name: worker
           image: "{{ .Values.global.image.registry }}/{{ .Values.global.image.repository }}/worker:{{ .Values.global.image.tag }}"
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           command: ["celery", "-A", "app.workers.celery_app", "worker", "--loglevel=info", "--concurrency=4"]
           envFrom:
             - configMapRef:
@@ -59,7 +59,7 @@ spec:
       containers:
         - name: beat
           image: "{{ .Values.global.image.registry }}/{{ .Values.global.image.repository }}/worker:{{ .Values.global.image.tag }}"
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           command: ["celery", "-A", "app.workers.celery_app", "beat", "--loglevel=info", "--scheduler", "celery.beat:PersistentScheduler"]
           envFrom:
             - configMapRef:

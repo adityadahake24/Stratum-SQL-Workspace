@@ -1,7 +1,7 @@
 global:
   image:
-    registry: ghcr.io
-    repository: your-org/stratum
+    registry: docker.io
+    repository: adityadahake/stratum
     tag: latest
   env: production
 
@@ -57,11 +57,11 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
   hosts:
-    - host: app.stratum.io
+    - host: stratum.adityadahake24.dev
       paths: [/]
   tls:
     - secretName: stratum-tls
-      hosts: [app.stratum.io]
+      hosts: [stratum.adityadahake24.dev]
 
 secrets:
   secretKey: ""
