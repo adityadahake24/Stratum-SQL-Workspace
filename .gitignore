@@ -4,3 +4,4 @@ STRATUM_BUILD_PROMPT.md
 TODO.md
 apps/frontend/node_modules
 apps/frontend/.nuxt
+apps/frontend/.output

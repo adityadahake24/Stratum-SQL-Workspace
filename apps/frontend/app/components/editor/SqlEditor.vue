@@ -3,55 +3,56 @@
 </template>
 
 <script setup lang="ts">
-import * as monaco from "monaco-editor"
+import loader from "@monaco-editor/loader"
+import type * as Monaco from "monaco-editor"
 
 const editorContainer = ref<HTMLElement | null>(null)
 const editor = useEditorStore()
 const ui = useUiStore()
 
-let monacoEditor: monaco.editor.IStandaloneCodeEditor | null = null
+let monacoEditor: Monaco.editor.IStandaloneCodeEditor | null = null
+let monaco: typeof Monaco | null = null
 
-const STRATUM_DARK: monaco.editor.IStandaloneThemeData = {
-  base: "vs-dark",
-  inherit: true,
-  rules: [
-    { token: "keyword", foreground: "818cf8" },
-    { token: "string", foreground: "a8cc7c" },
-    { token: "number", foreground: "f0a05a" },
-    { token: "comment", foreground: "656d76", fontStyle: "italic" },
-    { token: "identifier", foreground: "e6edf3" },
-  ],
-  colors: {
-    "editor.background": "#0f1117",
-    "editor.foreground": "#e6edf3",
-    "editor.lineHighlightBackground": "#161b22",
-    "editorLineNumber.foreground": "#656d76",
-    "editorCursor.foreground": "#818cf8",
-    "editor.selectionBackground": "#264f78",
-  },
-}
+onMounted(async () => {
+  monaco = await loader.init() as typeof Monaco
 
-const STRATUM_LIGHT: monaco.editor.IStandaloneThemeData = {
-  base: "vs",
-  inherit: true,
-  rules: [
-    { token: "keyword", foreground: "5B6CF2" },
-    { token: "string", foreground: "2e7d32" },
-    { token: "number", foreground: "c62828" },
-    { token: "comment", foreground: "9ca3af", fontStyle: "italic" },
-  ],
-  colors: {
-    "editor.background": "#ffffff",
-    "editor.foreground": "#1a1c1e",
-    "editor.lineHighlightBackground": "#f8f9fa",
-    "editorCursor.foreground": "#5B6CF2",
-    "editor.selectionBackground": "#c5cae9",
-  },
-}
+  monaco.editor.defineTheme("stratum-dark", {
+    base: "vs-dark",
+    inherit: true,
+    rules: [
+      { token: "keyword", foreground: "818cf8" },
+      { token: "string", foreground: "a8cc7c" },
+      { token: "number", foreground: "f0a05a" },
+      { token: "comment", foreground: "656d76", fontStyle: "italic" },
+      { token: "identifier", foreground: "e6edf3" },
+    ],
+    colors: {
+      "editor.background": "#0f1117",
+      "editor.foreground": "#e6edf3",
+      "editor.lineHighlightBackground": "#161b22",
+      "editorLineNumber.foreground": "#656d76",
+      "editorCursor.foreground": "#818cf8",
+      "editor.selectionBackground": "#264f78",
+    },
+  })
 
-onMounted(() => {
-  monaco.editor.defineTheme("stratum-dark", STRATUM_DARK)
-  monaco.editor.defineTheme("stratum-light", STRATUM_LIGHT)
+  monaco.editor.defineTheme("stratum-light", {
+    base: "vs",
+    inherit: true,
+    rules: [
+      { token: "keyword", foreground: "5B6CF2" },
+      { token: "string", foreground: "2e7d32" },
+      { token: "number", foreground: "c62828" },
+      { token: "comment", foreground: "9ca3af", fontStyle: "italic" },
+    ],
+    colors: {
+      "editor.background": "#ffffff",
+      "editor.foreground": "#1a1c1e",
+      "editor.lineHighlightBackground": "#f8f9fa",
+      "editorCursor.foreground": "#5B6CF2",
+      "editor.selectionBackground": "#c5cae9",
+    },
+  })
 
   monacoEditor = monaco.editor.create(editorContainer.value!, {
     value: editor.activeTab?.sql ?? "",
@@ -89,8 +90,15 @@ watch(() => editor.activeTabId, () => {
   }
 })
 
-watch(() => ui.theme, (theme) => {
-  monaco.editor.setTheme(theme === "dark" ? "stratum-dark" : "stratum-light")
+watch(() => editor.activeTab?.sql, (newSql: string | undefined) => {
+  if (monacoEditor && newSql !== undefined) {
+    const current = monacoEditor.getValue()
+    if (current !== newSql) monacoEditor.setValue(newSql)
+  }
+})
+
+watch(() => ui.theme, (theme: string) => {
+  monaco?.editor.setTheme(theme === "dark" ? "stratum-dark" : "stratum-light")
 })
 </script>
 

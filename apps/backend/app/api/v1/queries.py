@@ -41,6 +41,7 @@ async def execute_query(body: QueryExecuteRequest, current_user: CurrentUser, se
         created_at=datetime.now(timezone.utc),
     )
     session.add(history)
+    await session.flush()
     session.add(execution)
     await session.commit()
 

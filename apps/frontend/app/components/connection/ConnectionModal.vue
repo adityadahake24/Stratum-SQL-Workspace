@@ -71,11 +71,14 @@
 
 <script setup lang="ts">
 import { toast } from "vue-sonner"
+import type { DbConnection } from "~/stores/connection.store"
 
 const ui = useUiStore()
 const connStore = useConnectionStore()
 const auth = useAuthStore()
 const config = useRuntimeConfig()
+
+const DRAFT_KEY = "stratum:conn-draft"
 
 const isEditing = computed(() => !!ui.editingConnectionId)
 const form = reactive({
@@ -103,8 +106,22 @@ onMounted(() => {
       form.database = conn.database
       form.ssl_mode = conn.ssl_mode
     }
+  } else {
+    const saved = localStorage.getItem(DRAFT_KEY)
+    if (saved) {
+      try {
+        const draft = JSON.parse(saved)
+        Object.assign(form, draft)
+      } catch {}
+    }
   }
 })
+
+watch(form, () => {
+  if (!isEditing.value) {
+    localStorage.setItem(DRAFT_KEY, JSON.stringify({ ...form, password: "" }))
+  }
+}, { deep: true })
 
 async function testConnection() {
   testing.value = true
@@ -137,6 +154,7 @@ async function save() {
       toast.success("Connection updated")
     } else {
       await connStore.createConnection(form)
+      localStorage.removeItem(DRAFT_KEY)
       toast.success("Connection saved")
     }
     ui.closeConnectionModal()

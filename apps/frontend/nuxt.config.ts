@@ -1,6 +1,14 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   ssr: false,
+  srcDir: "app",
+
+  components: [
+    {
+      path: "~/components",
+      pathPrefix: false,
+    },
+  ],
 
   modules: [
     "@nuxtjs/tailwindcss",
@@ -11,7 +19,7 @@ export default defineNuxtConfig({
 
   shadcn: {
     prefix: "",
-    componentDir: "./app/components/ui",
+    componentDir: "./components/ui",
   },
 
   runtimeConfig: {
@@ -43,14 +51,14 @@ export default defineNuxtConfig({
     shim: false,
     tsConfig: {
       compilerOptions: {
-        types: ["node"],
+        types: ["node", "vite/client"],
       },
     },
   },
 
   vite: {
     optimizeDeps: {
-      include: ["monaco-editor"],
+      include: ["@monaco-editor/loader"],
     },
   },
 })

@@ -14,6 +14,15 @@ class Settings(BaseSettings):
     # Internal DB
     database_url: str = "postgresql+asyncpg://stratum:stratum@postgres:5432/stratum"
 
+    @field_validator("database_url")
+    @classmethod
+    def normalize_database_url(cls, v: str) -> str:
+        if v.startswith("postgres://"):
+            v = v.replace("postgres://", "postgresql+asyncpg://", 1)
+        elif v.startswith("postgresql://"):
+            v = v.replace("postgresql://", "postgresql+asyncpg://", 1)
+        return v
+
     # Redis
     redis_url: str = "redis://redis:6379/0"
 

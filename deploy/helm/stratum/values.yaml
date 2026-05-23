@@ -39,33 +39,52 @@ redis:
     persistence:
       enabled: true
       size: 8Gi
+      # storageClass for the Redis PVC. Use local-path for single-node clusters (rancher/k3s).
+      # Set to "-" to disable dynamic provisioning (bind to a manually created PV).
+      storageClass: local-path
 
 postgresql:
   enabled: true
   auth:
     database: stratum
+    username: stratum
+    # Password stored in secrets.postgresPassword below
   primary:
     persistence:
       enabled: true
       size: 50Gi
+      storageClass: local-path
 
 ingress:
   enabled: true
   className: nginx
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    # Uncomment + install cert-manager for production TLS:
+    # cert-manager.io/cluster-issuer: letsencrypt-prod
   hosts:
     - host: stratum.adityadahake24.dev
       paths: [/]
+  # selfSigned: true would generate a Helm-managed self-signed cert.
+  # Set to false — cert is managed by mkcert (trusted by local browsers).
+  selfSigned: false
   tls:
     - secretName: stratum-tls
       hosts: [stratum.adityadahake24.dev]
 
 secrets:
-  secretKey: ""
-  encryptionKey: ""
-  jwtSecret: ""
+  # Generate: python3 -c "import secrets; print(secrets.token_hex(32))"
+  secretKey: "54540d2c86bc5208741ad3171215c0289662cb4ca94d4d8cf5f2fae13c3f714a"
+  # Generate: python3 -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
+  encryptionKey: "K4Cw70l6yQD5kF0tQF04X_Gf7K-iOKJtFCHlXQFNqjQ="
+  # Generate: python3 -c "import secrets; print(secrets.token_hex(32))"
+  jwtSecret: "0ad8ffe5a7f64877065ac5ca76823dda9e2995069daa92050577c0f1276eb26d"
+  # PostgreSQL password for the in-cluster postgres pod
+  postgresPassword: "str4tumDB$ecret"
+  # DATABASE_URL is auto-computed as postgresql+asyncpg://<user>:<pass>@<release>-postgres:5432/<db>
+  # when postgresql.enabled=true. Only set this manually if using an external database.
   databaseUrl: ""
+  # redisUrl is auto-computed as redis://<release-name>-redis:6379/0 when redis.enabled=true
+  # Only set this if redis.enabled is false and you are using an external Redis
   redisUrl: ""

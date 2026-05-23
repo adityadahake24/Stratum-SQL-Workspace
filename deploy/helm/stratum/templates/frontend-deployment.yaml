@@ -23,7 +23,7 @@ spec:
             - containerPort: 3000
           env:
             - name: NUXT_PUBLIC_API_BASE
-              value: "https://{{ index .Values.ingress.hosts 0 "host" }}/api"
+              value: "https://{{ index .Values.ingress.hosts 0 "host" }}"
             - name: NUXT_PUBLIC_WS_BASE
               value: "wss://{{ index .Values.ingress.hosts 0 "host" }}"
           resources:
